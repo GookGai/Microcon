@@ -43,8 +43,12 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t  count = 0;
 uint8_t  i = 0;
-uint8_t led1,led2,led3;
+uint8_t  j = 0;
+uint8_t  k = 0;
+uint8_t  st = 0;
+uint8_t  led[9] = {1,1,1,1,1,1,1,1};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -97,34 +101,89 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  //LED1 PB0 On-off
 
-	/*  led1 = 1;
 
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, led1);
+/*	if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET ){
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET );
+		HAL_Delay(1000);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
+	}
 
-	  HAL_Delay(500);
+	if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET ){
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET );
 
-	  led1 = 0;
+			HAL_Delay(1000);
 
-	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, led1);
-	  HAL_Delay(500);
-	  i = i+1;
-	  if(i >7)
-		  i = 0;*/
-	 for(i=0;i<8;i++){
-		  if(i%2 == 0){led1 = 0;}
-		  else{led1 = 1;}
-		  if(i == 2 || i==3 || i==6|| i==7  ){led2 = 1;}
-		  else{led2 = 0;}
-		  if(i>3){led3 = 1;}
-		  else{led3 = 0;}
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_SET);
 
-		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, led1);
-		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, led2);
-		  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, led3);
-		  HAL_Delay(300);
+	}*/
+	////////////////////////////////////////////////////////////////
+
+	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, led[0]);
+	  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14,led[1]);
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_15, led[2]);
+	  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, led[3]);
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_14, led[4]);
+	  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, led[5]);
+	  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, led[6]);
+	  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, led[7]);
+
+	  if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET ){
+		  HAL_Delay(150);
+		  if(st == 0){
+			  led[0] = 0;
+			  st =1;
+		  }
+		  else{
+			  count = count + 1;
+			  if(count > 7){
+			  	count = 0;
+			  }
+			  for(i = 0;i<9;i++){
+			  	if(i == count){
+			  		led[i] = 0;
+			  	}
+			  	else{
+			  		led[i] = 1;
+			  	}
+			  }
+		  }
+
 	  }
+
+	  if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET ){
+		  HAL_Delay(500);
+		  for(k = 7;k>=1;k--){
+			  count = k;
+			  for(j=0;j<9;j++){
+				  if(j == k){
+					  led[j] = 0;
+				  }
+				  else{
+					  led[j] = 1;
+				  }
+			  }
+			  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, led[0]);
+			  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_14, led[1]);
+			  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_15, led[2]);
+			  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, led[3]);
+			  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_14, led[4]);
+			  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_11, led[5]);
+			  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, led[6]);
+			  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, led[7]);
+			  HAL_Delay(500);
+		  }
+		  count = 0;
+		  for(i = 0;i<9;i++){
+		  	if(i == count){
+		  		led[i] = 0;
+		  	}
+		  	else{
+		  		led[i] = 1;
+		  	}
+		  }
+	  }
+
 
   }
   /* USER CODE END 3 */
